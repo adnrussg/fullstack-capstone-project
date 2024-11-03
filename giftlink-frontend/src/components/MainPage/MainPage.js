@@ -52,7 +52,13 @@ function MainPage() {
 
                             {/* // Task 4: Display gift image or placeholder */}
                             {/* // Write your code below this line */}
-
+                            <div className='image-placeholder'>
+                                {gift.image ? (
+                                    <img src={gift.image} alt={gift.name} className='card-img-top' />
+                                ) : (
+                                    <div className='no-image-available'>No Image Available</div>
+                                )}
+                            </div>
                             <div className="card-body">
 
                                 {/* // Task 5: Display gift image or placeholder */}
