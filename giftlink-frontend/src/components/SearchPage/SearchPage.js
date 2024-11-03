@@ -46,7 +46,7 @@ function SearchPage() {
 
         try {
             const response = await fetch(`${baseUrl}${queryParams}`);
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error('Search failed');
             }
             const data = await response.json();
@@ -74,7 +74,35 @@ function SearchPage() {
                         <h5>Filters</h5>
                         <div className="d-flex flex-column">
                             {/* Task 3: Dynamically generate category and condition dropdown options.*/}
+                            {/* Category Dropdown */}
+                            <label htmlFor="categorySelect">Category</label>
+                            <select id="categorySelect" className="form-control my-1">
+                                <option value="">All</option>
+                                {categories.map(category => (
+                                    <option key={category} value={category}>{category}</option>
+                                ))}
+                            </select>
+
+                            {/* Condition Dropdown */}
+                            <label htmlFor="conditionSelect">Condition</label>
+                            <select id="conditionSelect" className="form-control my-1">
+                                <option value="">All</option>
+                                {conditions.map(condition => (
+                                    <option key={condition} value={condition}>{condition}</option>
+                                ))}
+                            </select>
                             {/* Task 4: Implement an age range slider and display the selected value. */}
+                            {/* Age Range Slider */}
+                            <label htmlFor="ageRange">Less than {ageRange} years</label>
+                            <input
+                                type="range"
+                                className="form-control-range"
+                                id="ageRange"
+                                min="1"
+                                max="10"
+                                value={ageRange}
+                                onChange={e => setAgeRange(e.target.value)}
+                            />
                         </div>
                     </div>
                     {/* Task 7: Add text input field for search criteria*/}
