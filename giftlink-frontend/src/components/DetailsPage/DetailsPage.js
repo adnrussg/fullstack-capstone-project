@@ -44,7 +44,7 @@ function DetailsPage() {
 
     const handleBackClick = () => {
 		// Task 4: Handle back click
-		{{ insert code here }}
+		navigate(-1);
 	};
 
 	//The comments have been hardcoded for this project.
