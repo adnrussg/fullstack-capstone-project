@@ -19,38 +19,35 @@ function LoginPage() {
             navigate('/app')
         }
     }, [navigate])
-    
+
     // insert code here to create handleLogin function and include console.log
-    const handleLogin = async () => {
-        try {
-            const response = await fetch(`${urlConfig.backendUrl}/api/auth/login`, {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json',
-                    'Authorization': bearerToken ? `Bearer ${bearerToken}` : '',
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                })
+    const handleLogin = async (e) => {
+        e.preventDefault();
+        const response = await fetch(`${urlConfig.backendUrl}/api/auth/login`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json',
+                'Authorization': bearerToken ? `Bearer ${bearerToken}` : '',
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
             })
-            const json = response.json();
-            if(json.authtoken){
-                sessionStorage.setItem('auth-token', json.authtoken);
-                sessionStorage.setItem('name', json.userName);
-                sessionStorage.setItem('email', json.userEmail);
-                setIsLoggedIn(true);
-                navigate('/app');
-            } else {
-                document.getElementById('email').value='';
-                document.getElementById('password').value='';
-                setIncorrect('Wrong Password. Try again.');
-                setTimeout(() => {
-                    setIncorrect('');
-                }, 2000);
-            }
-        } catch (error) {
-            console.log('Error fetching details' + error.message);
+        })
+        const json = await response.json();
+        if (json.authtoken) {
+            sessionStorage.setItem('auth-token', json.authtoken);
+            sessionStorage.setItem('name', json.userName);
+            sessionStorage.setItem('email', json.userEmail);
+            setIsLoggedIn(true);
+            navigate('/app');
+        } else {
+            document.getElementById('email').value = '';
+            document.getElementById('password').value = '';
+            setIncorrect('Wrong Password. Try again.');
+            setTimeout(() => {
+                setIncorrect('');
+            }, 2000);
         }
     }
     return (
@@ -69,7 +66,7 @@ function LoginPage() {
                                 className="form-control"
                                 placeholder="Enter your email"
                                 value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                onChange={(e) => {setEmail(e.target.value); setIncorrect('')}}
                             />
                         </div>
                         <div className="mb-3">
@@ -80,9 +77,9 @@ function LoginPage() {
                                 className="form-control"
                                 placeholder="Enter your Password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={(e) => {setPassword(e.target.value); setIncorrect('')}}
                             />
-                            <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span>
+                            <span style={{ color: 'red', height: '.5cm', display: 'block', fontStyle: 'italic', fontSize: '12px' }}>{incorrect}</span>
                         </div>
                         {/* insert code here to create a button that performs the `handleLogin` function on click */}
                         <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
