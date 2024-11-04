@@ -1,14 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './LoginPage.css';
+import { urlConfig } from '../../config';
+import { useAppContext } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
 
     //insert code here to create useState hook variables for email, password
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [incorrect, setIncorrect] = useState('');
+    const navigate = useNavigate();
+    const bearerToken = sessionStorage.getItem('bearer-token');
+    const { setIsLoggedIn } = useAppContext();
+
+    useEffect(() => {
+        if (sessionStorage.getItem('auth-token')) {
+            navigate('/app')
+        }
+    }, [navigate])
+    
     // insert code here to create handleLogin function and include console.log
     const handleLogin = async () => {
-        console.log("Inside handleLogin");
+        try {
+            const response = await fetch(`${urlConfig.backendUrl}/api/auth/login`, {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json',
+                    'Authorization': bearerToken ? `Bearer ${bearerToken}` : '',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                })
+            })
+        } catch (error) {
+            console.log('Error fetching details' + error.message);
+        }
     }
     return (
         <div className="container mt-5">
