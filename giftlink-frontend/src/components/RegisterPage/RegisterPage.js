@@ -30,6 +30,17 @@ function RegisterPage() {
                     password: password
                 })
             })
+            const json = await response.json();
+            if(json.authtoken) {
+                sessionStorage.setItem('auth-token', json.authtoken);
+                sessionStorage.setItem('name', firstName);
+                sessionStorage.setItem('email', json.email);
+                setIsLoggedIn(true);
+                navigate('/app');
+            }
+            if(json.error) {
+                setShowerr(json.error);
+            }
         } catch (error) {
             console.log("Error fetching details: " + error.message);
         }
@@ -74,6 +85,7 @@ function RegisterPage() {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         />
+                        <div className="text-danger">{showerr}</div>
                     </div>
                     <div className='mb-4'>
                         <label htmlFor='password' className='form label'>Password</label>
