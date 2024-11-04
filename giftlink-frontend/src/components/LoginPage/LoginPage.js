@@ -34,6 +34,21 @@ function LoginPage() {
                     password: password,
                 })
             })
+            const json = response.json();
+            if(json.authtoken){
+                sessionStorage.setItem('auth-token', json.authtoken);
+                sessionStorage.setItem('name', json.userName);
+                sessionStorage.setItem('email', json.userEmail);
+                setIsLoggedIn(true);
+                navigate('/app');
+            } else {
+                document.getElementById('email').value='';
+                document.getElementById('password').value='';
+                setIncorrect('Wrong Password. Try again.');
+                setTimeout(() => {
+                    setIncorrect('');
+                }, 2000);
+            }
         } catch (error) {
             console.log('Error fetching details' + error.message);
         }
@@ -67,6 +82,7 @@ function LoginPage() {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
+                            <span style={{color:'red',height:'.5cm',display:'block',fontStyle:'italic',fontSize:'12px'}}>{incorrect}</span>
                         </div>
                         {/* insert code here to create a button that performs the `handleLogin` function on click */}
                         <button className="btn btn-primary w-100 mb-3" onClick={handleLogin}>Login</button>
