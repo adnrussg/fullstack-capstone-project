@@ -37,7 +37,7 @@ function SearchPage() {
     // Task 2. Fetch search results from the API based on user inputs.
     const handleSearch = async () => {
         const baseUrl = `${urlConfig.backendUrl}/api/search?`;
-        const queryParams = URLSearchParams({
+        const queryParams = new URLSearchParams({
             name: searchQuery,
             age_years: ageRange,
             category: document.getElementById('categorySelect').value,
