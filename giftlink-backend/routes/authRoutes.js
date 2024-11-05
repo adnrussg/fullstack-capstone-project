@@ -37,7 +37,7 @@ router.post('/register', async (req, res) => {
             lastName: req.body.lastName,
             password: hash,
             createdAt: new Date(),
-        })
+        });
         // {{insert code here}} //Task 5: Create JWT authentication with user._id as payload
         const payload = {
             user: {
@@ -63,7 +63,7 @@ router.post('/login', async (req, res) => {
         const theUser = await collection.findOne({ email: req.body.email });
         // Task 4: Task 4: Check if the password matches the encrypyted password and send appropriate message on mismatch
         if (theUser) {
-            let result = await bcryptjs.compare(req.body.password, theUser.password)
+            let result = await bcryptjs.compare(req.body.password, theUser.password);
             if (!result) {
                 logger.error('Passwords do not match');
                 return res.status(404).json({ error: 'Wrong Password' });
