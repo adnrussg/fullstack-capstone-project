@@ -127,7 +127,7 @@ try {
     // Task 7: create JWT authentication using secret key from .env file
     const payload = {
         user: {
-            id: updatedUser.user._id.toString(),
+            id: updatedUser._id.toString(),
         },
     };
     const authtoken = jwt.sign(payload, JWT_SECRET);
